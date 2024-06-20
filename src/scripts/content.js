@@ -309,10 +309,6 @@ function search(query=""){
         group.visible = groupVisible;
     });
 
-    if(!bcp.selected.visible){
-        resetSelection({mode : "firstAvailable"}); //or next
-    }
-
     return ret;
 }
 
