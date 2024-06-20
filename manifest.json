@@ -1,0 +1,24 @@
+{
+    "manifest_version": 3,
+    "name": "Bookmarks Command Palette",
+    "description": "Command palette for bookmarks.",
+    "version": "1.0",
+    "action": {
+        "default_icon": "assets/icon.png"
+    },
+    "icons" :{
+        "128": "assets/icon.png"
+    },
+    "background": {
+        "service_worker": "src/scripts/background.js"
+    },
+    "permissions" : [
+        "storage", "bookmarks"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["src/scripts/content.js"]
+        }
+    ]
+}
