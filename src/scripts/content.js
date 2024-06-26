@@ -101,21 +101,20 @@ window.bcp = {
         const [modifier, key] = bcp.config.openKeybind.split('+');
         if( (!modifier || (modifier && event[modifier])) && event.key === key ){
             togglePalette();
-        } else if( event.key === 'Escape' ){
-            togglePalette(false);
-        } else if( event.key === 'Enter' ){
-            if(bcp.mode === "bookmarks"){
-                if (event.metaKey){
-                    window.open(bcp.selected.url);
+        } else if (bcp.open){
+            if( event.key === 'Escape' ){
+                togglePalette(false);
+            } else if(event.key === 'Enter' ){
+                if(bcp.mode === "bookmarks"){
+                    if (event.metaKey){
+                        window.open(bcp.selected.url);
+                    } else {
+                        window.location.assign(bcp.selected.url);
+                    }
                 } else {
-                    window.location.assign(bcp.selected.url);
+                    bcp.selected.run(parseArgs(elements.input.value));
                 }
-            } else {
-                bcp.selected.run(parseArgs(elements.input.value));
-            }
-        } if(bcp.open){
-            //Selection
-            if(event.key == "ArrowDown"){
+            } else if(event.key == "ArrowDown"){
                 setScrollTimeout();
                 setSelection(nextVisibleIndex({direction : "down"}));
             } else if (event.key == "ArrowUp"){
@@ -183,7 +182,7 @@ async function togglePalette(state = null){
     }
 
     //Update Palette
-    elements.overlay.classList.toggle('bcp-hidden', state != null ? state : !isHidden);
+    elements.overlay.classList.toggle('bcp-hidden', state != null ? !state : !isHidden);
     bcp.open = isHidden && state != false;
     if(bcp.open) elements.input.focus();
 }
